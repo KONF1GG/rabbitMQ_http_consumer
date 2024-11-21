@@ -1,0 +1,7 @@
+.env
+.venv
+send_mess.py
+.idea/
+__pycache__/
+
+
