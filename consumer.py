@@ -62,10 +62,16 @@ def send_telegram_message(message):
     """Отправка логов в Telegram."""
     url = f'https://api.telegram.org/bot{config.get('API_TOKEN')}/sendMessage'
     data = {'chat_id': config.get('CHAT_ID'), 'text': message}
+    data_leo = {'chat_id': config.get('CHAT_ID_LEO'), 'text': message}
     try:
         response = requests.post(url, data=data)
         if response.status_code != 200:
             print(f"Ошибка отправки уведомления: {response.status_code}, {response.text}")
+
+        response = requests.post(url, data=data_leo)
+        if response.status_code != 200:
+            print(f"Ошибка отправки уведомления: {response.status_code}, {response.text}")
+
     except Exception as e:
         print(f"Ошибка при отправке уведомления: {e}")
 
@@ -109,6 +115,7 @@ def process_message(ch, method, properties, body):
                                                   f"Количество попыток отправки: {message_attempts}\n\n"
                                                   f"hash ошибки: {message_hash}")
                     send_telegram_message(error_message_for_telegram)
+
 
     except Exception as e:
         print(f"Error processing message: {e}")
